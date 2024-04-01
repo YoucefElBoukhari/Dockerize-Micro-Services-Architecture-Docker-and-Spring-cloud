@@ -1,6 +1,6 @@
 services:
   discovery-service:
-    build: discovery-service
+    image: elboukhariyoucef/discoveryservice:1.0.0
     container_name: discovery-service-container
     ports:
       - "8761:8761"
@@ -10,7 +10,7 @@ services:
       test: ["CMD","curl","f","http://localhost:8761/actuator/health"]
       interval: 10s
   config-service:
-    build: config-service
+    image: elboukhariyoucef/configservice:1.0.0
     container_name: config-service-container
     ports:
       - "9999:9999"
@@ -26,7 +26,7 @@ services:
         condition: service_healthy
 
   customer-service:
-    build: customer-service
+    image: elboukhariyoucef/customerservice:1.0.0
     container_name: customer-service-container
     ports:
       - "8081:8081"
@@ -37,13 +37,13 @@ services:
       - CONFIG_SERVICE_URL=http://config-service-container:9999
     healthcheck:
       test: [ "CMD","curl","f","http://localhost:8081/actuator/health" ]
-      interval: 10s
+      interval: 30s
     depends_on:
       config-service:
         condition: service_healthy
 
   account-service:
-    build: account-service
+    image: elboukhariyoucef/accountservice:1.0.0
     container_name: account-service-container
     ports:
       - "8082:8082"
@@ -57,7 +57,7 @@ services:
         condition: service_healthy
 
   gateway-service:
-    build: gateway-service
+    image: elboukhariyoucef/gatewayservice:1.0.0
     container_name: gateway-service-container
     ports:
       - "8888:8888"
